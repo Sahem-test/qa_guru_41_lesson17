@@ -14,6 +14,7 @@ import static specs.login.LoginSpec.successfulLoginResponseSpec;
 import static specs.registration.RegistrationSpec.registrationRequestSpec;
 import static specs.registration.RegistrationSpec.successfulRegistrationResponseSpec;
 import static specs.user.UpdateUserSpec.*;
+import static testData.TestData.*;
 
 public class UpdateUserTests extends TestBase {
     TestData td = new TestData();
@@ -145,8 +146,6 @@ public class UpdateUserTests extends TestBase {
                         .extract().as(SuccessfulUpdateUserResponseModel.class);
 
         String actualUsername = responseUpdateUser.username();
-        String actualFirstName = responseUpdateUser.firstName();
-        String actualLastName = responseUpdateUser.lastName();
         String actualEmail = responseUpdateUser.email();
 
         assertThat(responseUpdateUser.id()).isPositive();
@@ -192,8 +191,8 @@ public class UpdateUserTests extends TestBase {
         String actualFirstName = responseUpdateUser.firstName().get(0);
         String actualLastName = responseUpdateUser.lastName().get(0);
 
-        assertThat(actualFirstName).isEqualTo(td.expectedRequiredField);
-        assertThat(actualLastName).isEqualTo(td.expectedRequiredField);
+        assertThat(actualFirstName).isEqualTo(EXPECTED_REQUIRED_FIELD);
+        assertThat(actualLastName).isEqualTo(EXPECTED_REQUIRED_FIELD);
         assertThat(responseUpdateUser.username()).isNull();
         assertThat(responseUpdateUser.email()).isNull();
     }
@@ -213,7 +212,7 @@ public class UpdateUserTests extends TestBase {
                         .extract().as(UnauthorizedResponseModel.class);
 
         String actualDetail = responseUpdateUser.detail();
-        assertThat(actualDetail).isEqualTo(td.expectedUnauthorizedError);
+        assertThat(actualDetail).isEqualTo(EXPECTED_UNAUTHORIZED_ERROR);
     }
 }
 

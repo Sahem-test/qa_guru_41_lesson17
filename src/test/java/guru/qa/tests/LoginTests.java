@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static specs.login.LoginSpec.*;
 import static specs.registration.RegistrationSpec.registrationRequestSpec;
 import static specs.registration.RegistrationSpec.successfulRegistrationResponseSpec;
+import static testData.TestData.*;
 
 public class LoginTests extends TestBase {
 
@@ -59,7 +60,7 @@ public class LoginTests extends TestBase {
                 .extract().as(InvalidCredentialsLoginResponseModel.class);
 
         String actualErrorInvalidUsernameOrPassword = loginResponse.detail();
-        assertThat(actualErrorInvalidUsernameOrPassword).isEqualTo(td.expectedErrorInvalidUsernameOrPassword);
+        assertThat(actualErrorInvalidUsernameOrPassword).isEqualTo(EXPECTED_ERROR_INVALID_USERNAME_OR_PASSWORD);
 
     }
 
@@ -75,12 +76,12 @@ public class LoginTests extends TestBase {
                 .extract().as(WithoutRefreshTokenLoginResponseModel.class);
 
         String actualRefresh = emptyRefreshResponseModel.refresh().get(0);
-        assertThat(actualRefresh).isEqualTo(td.expectedRequiredField);
+        assertThat(actualRefresh).isEqualTo(EXPECTED_REQUIRED_FIELD);
     }
 
     @Test
     public void invalidRefreshTokenLoginNegativeTest() {
-        InvalidRefreshTokenBodyModel invalidTokenBodyModel = new InvalidRefreshTokenBodyModel(td.expectedErrorInvalidRefreshToken);
+        InvalidRefreshTokenBodyModel invalidTokenBodyModel = new InvalidRefreshTokenBodyModel(EXPECTED_ERROR_INVALID_REFRESH_TOKEN);
         InvalidRefreshTokenResponseModel loginResponse = given(loginRequestSpec)
                 .body(invalidTokenBodyModel)
                 .when()
@@ -92,8 +93,8 @@ public class LoginTests extends TestBase {
         String actualDetailInvalidRefreshToken = loginResponse.detail();
         String actualCodeInvalidRefreshToken = loginResponse.code();
 
-        assertThat(actualDetailInvalidRefreshToken).isEqualTo(td.expectedErrorValidToken);
-        assertThat(actualCodeInvalidRefreshToken).isEqualTo(td.expectedTokenNotValidCode);
+        assertThat(actualDetailInvalidRefreshToken).isEqualTo(EXPECTED_ERROR_VALID_TOKEN);
+        assertThat(actualCodeInvalidRefreshToken).isEqualTo(EXPECTED_TOKEN_NOT_VALID_CODE);
     }
 
     @Test
@@ -132,8 +133,8 @@ public class LoginTests extends TestBase {
         String actualDetailInvalidRefreshToken = loginResponse.detail();
         String actualCodeInvalidRefreshToken = loginResponse.code();
 
-        assertThat(actualDetailInvalidRefreshToken).isEqualTo(td.expectedErrorWrongTokenType);
-        assertThat(actualCodeInvalidRefreshToken).isEqualTo(td.expectedTokenNotValidCode);
+        assertThat(actualDetailInvalidRefreshToken).isEqualTo(EXPECTED_ERROR_WRONG_TOKEN_TYPE);
+        assertThat(actualCodeInvalidRefreshToken).isEqualTo(EXPECTED_TOKEN_NOT_VALID_CODE);
 
     }
 

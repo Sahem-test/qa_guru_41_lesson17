@@ -18,6 +18,7 @@ import static specs.login.LoginSpec.successfulLoginResponseSpec;
 import static specs.logout.LogoutSpec.*;
 import static specs.registration.RegistrationSpec.registrationRequestSpec;
 import static specs.registration.RegistrationSpec.successfulRegistrationResponseSpec;
+import static testData.TestData.*;
 
 public class LogoutTests extends TestBase {
 
@@ -98,8 +99,8 @@ public class LogoutTests extends TestBase {
 
         String actualDetailReusedRefreshToken = logoutResponse.detail();
         String actualCodeReusedRefreshToken = logoutResponse.code();
-        assertThat(actualDetailReusedRefreshToken).isEqualTo(td.expectedErrorTokenIsBlackListed);
-        assertThat(actualCodeReusedRefreshToken).isEqualTo(td.expectedTokenNotValidCode);
+        assertThat(actualDetailReusedRefreshToken).isEqualTo(EXPECTED_ERROR_TOKEN_IS_BLACKLISTED);
+        assertThat(actualCodeReusedRefreshToken).isEqualTo(EXPECTED_TOKEN_NOT_VALID_CODE);
 
     }
 
@@ -118,7 +119,7 @@ public class LogoutTests extends TestBase {
 
 
         String actualErrorWithoutRefreshToken = logoutResponse.refresh().get(0);
-        assertThat(actualErrorWithoutRefreshToken).isEqualTo(td.expectedRequiredField);
+        assertThat(actualErrorWithoutRefreshToken).isEqualTo(EXPECTED_REQUIRED_FIELD);
     }
 
     @Test
@@ -154,8 +155,8 @@ public class LogoutTests extends TestBase {
 
         String actualDetailReusedRefreshToken = logoutResponse.detail();
         String actualCodeReusedRefreshToken = logoutResponse.code();
-        assertThat(actualDetailReusedRefreshToken).isEqualTo(td.expectedErrorWrongTokenType);
-        assertThat(actualCodeReusedRefreshToken).isEqualTo(td.expectedTokenNotValidCode);
+        assertThat(actualDetailReusedRefreshToken).isEqualTo(EXPECTED_ERROR_WRONG_TOKEN_TYPE);
+        assertThat(actualCodeReusedRefreshToken).isEqualTo(EXPECTED_TOKEN_NOT_VALID_CODE);
 
     }
 

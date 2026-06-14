@@ -7,6 +7,7 @@ import testData.TestData;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static specs.registration.RegistrationSpec.*;
+import static testData.TestData.*;
 
 
 public class RegistrationTests extends TestBase {
@@ -33,7 +34,7 @@ public class RegistrationTests extends TestBase {
         assertThat(registrationResponseModel.id()).isGreaterThan(0);
         assertThat(registrationResponseModel.lastName()).isEmpty();
         assertThat(registrationResponseModel.email()).isEmpty();
-        assertThat(registrationResponseModel.remoteAddr()).matches(td.ipAddressRegexp);
+        assertThat(registrationResponseModel.remoteAddr()).matches(IP_ADDRESS_REGEXP);
     }
 
     @Test
@@ -63,7 +64,7 @@ public class RegistrationTests extends TestBase {
                         .as(ExistingUserResponseModel.class);
 
         String actualError = secondRegistrationResponse.username().get(0);
-        assertThat(actualError).isEqualTo(td.expectedErrorExistingUser);
+        assertThat(actualError).isEqualTo(EXPECTED_ERROR_EXISTING_USER);
     }
 
     @Test
@@ -81,7 +82,7 @@ public class RegistrationTests extends TestBase {
                         .as(UnsupportedMediaTypeRegistrationBodyModel.class);
 
         String actualError = unsupportedMediaTypeResponseModel.detail();
-        assertThat(actualError).isEqualTo(td.expectedErrorUnsupportedMediaType);
+        assertThat(actualError).isEqualTo(EXPECTED_ERROR_UNSUPPORTED_MEDIA_TYPE);
     }
 
     @Test
@@ -98,7 +99,7 @@ public class RegistrationTests extends TestBase {
                 .as(EmptyFieldUsernameResponseModel.class);
 
         String actualError = emptyFieldUsernameResponseModel.username().get(0);
-        assertThat(actualError).isEqualTo(td.expectedErrorNotBeBlank);
+        assertThat(actualError).isEqualTo(EXPECTED_ERROR_NOT_BE_BLANK);
     }
 
     @Test
@@ -115,12 +116,12 @@ public class RegistrationTests extends TestBase {
                 .as(WrongPasswordResponseModel.class);
 
         String actualError = wrongPasswordResponseModel.password().get(0);
-        assertThat(actualError).isEqualTo(td.expectedErrorNotBeBlank);
+        assertThat(actualError).isEqualTo(EXPECTED_ERROR_NOT_BE_BLANK);
     }
 
     @Test
     public void passwordLongerRequiredLengthRegistrationNegativeTest() {
-        RegistrationBodyModel registrationData = new RegistrationBodyModel(td.username, td.longerRequiredLengthPassword);
+        RegistrationBodyModel registrationData = new RegistrationBodyModel(td.username, td.tooLongPassword);
 
         WrongPasswordResponseModel wrongPasswordResponseModel = given(registrationRequestSpec)
                 .body(registrationData)
@@ -132,7 +133,7 @@ public class RegistrationTests extends TestBase {
                 .as(WrongPasswordResponseModel.class);
 
         String actualError = wrongPasswordResponseModel.password().get(0);
-        assertThat(actualError).isEqualTo(td.expectedErrorLongerRequiredLengthPassword);
+        assertThat(actualError).isEqualTo(EXPECTED_ERROR_LONGER_REQUIRED_LENGTH_PASSWORD);
 
     }
 }
